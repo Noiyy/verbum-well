@@ -1,0 +1,72 @@
+<div id="sidebar-menu" class="d-flex justify-content-end">
+    <nav class="d-flex flex-column flex-grow-1 justify-content-end 
+        <% if (!locals.authUser) { %> notAuth <% } %>">
+        <a class="user-avatar d-flex justify-content-end a-plain imgLink"
+            <% if (locals.authUser) { %> href="/user/<%= locals.authUser.id %>" <% } %>>
+            <div class="imgCont r50p">
+                <% if (locals.authUser) { %>
+                    <% if (locals.authUser.avatarLocation) { %>
+                        <img src="<%=`${process.env.SERVER_URL}:${process.env.SERVER_PORT}/${authUser.avatarLocation}`%>" alt="user-avatar">
+                    <% } else { %>
+                        <img src="/assets/img/userAvatarDefault.png" alt="user-avatar" style="border: 4px solid var(--c_bg)">
+                    <% } %>
+                <div class="user-avatar-misc d-flex align-items-end">
+                    <% if (locals.authUser.isAdmin) { %> <span class="badge text-bg-danger">Admin</span> <% } %>
+                    <% if (locals.authUser.hasPremium) { %> 
+                        <div class="priemium-icon-cont d-flex justify-content-center align-items-center"><img class="user-premium-icon" src="/assets/img/icons/star.svg" alt="premium"></div>
+                    <% } %>
+                </div>
+                <% } %>
+            </div>
+        </a>
+
+        <% if (!locals.authUser) { %>
+        <div class="sidebar-btns auth d-flex justify-content-end" onclick="showModal('auth-modal')">
+            <h6 class="btn">Sign In</h6>
+        </div>
+        <% } %>
+        <!-- signup/login -->
+        <div class="d-flex flex-column">
+            <a 
+                href="/" 
+                class="<% if (active && active == "home") { %> active <% } %>">
+                Home
+            </a>
+            <% if (locals.authUser && locals.authUser && locals.authUser.isAdmin) { %>
+            <a 
+                <% if (locals.authUser && locals.authUser.isAdmin) { %> href="/adminPanel" <% } %>
+                class="<% if (active && active == "adminPanel") { %> active <% } %>
+                    <% if (locals.authUser && !locals.authUser.isAdmin) { %> disabled <% } %>">
+                Admin panel
+            </a>
+            <% } %>
+            <a 
+                <% if (locals.authUser) { %> href="/write" <% } %>
+                class="<% if (active && active == "write") { %> active <% } %>
+                    <% if (!locals.authUser) { %> disabled <% } %>">
+                Write
+            </a>
+            <a 
+                href="/posts" 
+                class="<% if (active && active == "posts") { %> active <% } %>">
+                Explore
+            </a>
+            <a 
+                href="/aboutUs" 
+                class="<% if (active && active == "aboutUs") { %> active <% } %>">
+                About us
+            </a>
+            <a 
+                href="/contact" 
+                class="<% if (active && active == "contact") { %> active <% } %>">
+                Contact
+            </a>
+        </div>
+        <!-- logout -->
+        <div class="sidebar-btns logout d-flex justify-content-end">
+            <% if (locals.authUser) { %>
+            <h6 class="btn" onclick="doLogout()">Logout</h6>
+            <% } %>
+        </div>
+    </nav>
+</div>

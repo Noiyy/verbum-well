@@ -1,0 +1,71 @@
+
+#hero {
+    flex: 1;
+    min-height: 90vh;
+    min-height: 90svh;
+}
+
+#hero .hero-btn-group {
+    display: flex;
+    gap: 24px;
+    margin-top: 64px;
+}
+
+#hero .bento {
+    height: 500px;
+    background: url("../img/pg_semestralka-2-s.jpg");
+    background-size: 215%;
+    background-position: right -112px top -84px;
+    background-repeat: no-repeat;
+    mask-image: url("../img/hero2.svg");
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    mask-position: right;
+}
+
+#stat-cards {
+    margin-top: 96px;
+}
+
+#stat-cards .cards-wrapper {
+    margin-bottom: 48px;
+}
+
+#stat-cards .cards-title {
+    margin-bottom: 32px !important;
+}
+
+#stat-cards .stat-card {
+    flex-direction: column;
+    padding: 64px 6px;
+    background-color: var(--c_secondary-20a);
+    border-radius: 16px;
+    width: 100%;
+}
+
+#stat-cards .stat-card h2 {
+    line-height: 100%;
+}
+
+#stat-cards .stat-card p {
+    font-weight: 200;
+}
+
+#stat-cards h3 {
+    margin-bottom: 128px !important;
+}
+
+#post-cards .cards-wrapper .second-col {
+    margin-top: 160px;
+}
+
+#post-cards .cards-wrapper .card-col {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+#post-cards .post-card .card-text p {
+    max-height: 120px;
+    overflow: hidden;
+}

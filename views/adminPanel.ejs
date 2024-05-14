@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <%- include("includes/baseHead.ejs") %>
+        <link rel="stylesheet" href="/assets/css/posts.css">
+        <link rel="stylesheet" href="/assets/css/user.css">
+        <link rel="stylesheet" href="/assets/css/adminPanel.css">
+        <title>VW | Admin panel </title>
+
+        <script src="/assets/js/posts.js" defer></script>
+    </head>
+    <body>
+        <div class="page-load-animation fast"></div>
+        <div class="page-load-overlay fast"></div>
+
+        <%- include("includes/header.ejs") %>
+        <%- include("includes/authModal.ejs") %>
+        <%- include("includes/sidebarMenu.ejs", {active: "adminPanel"}) %>
+        <%- include("includes/confirmModal.ejs") %>
+
+        <section id="a-users">
+            <div class="container">
+                <div class="d-flex justify-content-end" style="margin-bottom: 24px;">
+                    <span class="badge text-bg-danger">Admin</span>
+                </div>
+                <div class="d-flex users-heading justify-content-between align-items-center">
+                    <h1 class="heading h-1 ">Users</h1>
+                    <div class="d-flex align-items-center btn-collapse-cont">
+                        <%= users.length %>
+                        <button class="btn btn-primary btn-icon offset collapseShowBtn" data-bs-toggle="collapse" data-text="show"
+                            data-bs-target="#usersCollapse" aria-expanded="false" aria-controls="usersCollapse">
+                            <img src="/assets/img/icons/chevron-down-dark.svg" class="btn-io-up" alt="show">
+                        </button>
+                    </div>
+                </div>
+                <div class="collapse" id="usersCollapse">
+                    <div class="a-users-wrapper d-flex flex-column">
+                        <% for (const user of users) { %>
+                        <div class="user-card post-card compact">
+                            <div class="user-card-img d-flex">
+                                <% if (user.avatarLocation) { %>
+                                    <img src="<%=`${process.env.SERVER_URL}:${process.env.SERVER_PORT}/${user.avatarLocation}`%>" alt="user-avatar">
+                                <% } else { %>
+                                    <img src="/assets/img/userAvatarDefault.png" alt="user-avatar" style="border: 4px solid var(--c_bg)">
+                                <% } %>
+                            </div>
+                            <div class="user-card-content d-flex justify-content-between align-items-center flex-grow-1">
+                                <div class="user-card-heading d-flex align-items-center">
+                                    <h6 class="card-item-id"> #<%= user.id %> </h6>
+                                    <h5 class="card-heading gradient"> <%= user.name %> </h5>
+                                </div>
+                                <div class="post-card-admin-btns d-flex justify-content-center align-items-center user-btns">
+                                    <a class="btn btn-secondary btn-icon a-plain" role="button" href="/user/<%= user.id %>">
+                                        <img src="/assets/img/icons/arrow-up-right.svg" alt="view">
+                                    </a>
+                                    <button class="btn btn-secondary btn-icon">
+                                        <img src="/assets/img/icons/delete.svg" alt="delete">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="a-posts">
+            <div class="container">
+                <div class="d-flex posts-heading justify-content-between align-items-center">
+                    <h1 class="heading h-1 ">Posts</h1>
+                    <div class="d-flex align-items-center  btn-collapse-cont">
+                        <%= posts.length %>
+                        <button class="btn btn-primary btn-icon offset collapseShowBtn" data-bs-toggle="collapse" data-text="show"
+                            data-bs-target="#postsCollapse" aria-expanded="false" aria-controls="postsCollapse">
+                            <img src="/assets/img/icons/chevron-down-dark.svg" class="btn-io-up" alt="show">
+                        </button>
+                    </div>
+                </div>
+                <div class="collapse" id="postsCollapse">
+                    <div class="a-posts-wrapper d-flex flex-column">
+                        <% for (const post of posts) { %>
+                        <a href="/post/<%= post.id %>" class="a-plain" role="button">
+                            <div class="post-card compact">
+                                <div class="post-card-content d-flex align-items-center">
+                                    <div class="card-text">
+                                        <div class="card-text-header d-flex flex-grow-1 justify-content-between">
+                                            <div class="card-text-heading d-flex align-items-center">
+                                                <h6 class="card-item-id"> #<%= post.id %> </h6>
+                                                <h5 class="card-heading gradient"> <%= post.title %> </h5>
+                                            </div>
+                                            <div class="d-flex right align-items-center">
+                                                <h6 class="poppins-thin"> <%= post.authorName %> </h6>
+                                                <div class="circle-divider-xs"></div>
+                                                <p class="poppins-thin-italic" style="font-size: 16px;"> <%= locals.globals.epochSecToDateString(post.dateCreatedS) %> </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="post-card-admin-btns d-flex flex-column justify-content-center align-items-center">
+                                    <!-- <button class="btn btn-secondary btn-icon">
+                                        <img src="/assets/img/icons/edit.svg" alt="edit">
+                                    </button> -->
+                                    <button class="btn btn-secondary btn-icon">
+                                        <img src="/assets/img/icons/delete.svg" alt="delete">
+                                    </button>
+                                </div>
+                            </div>
+                        </a>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="a-comments">
+            <div class="container">
+                <div class="d-flex comments-heading justify-content-between align-items-center">
+                    <h1 class="heading h-1 ">Comments</h1>
+                    <div class="d-flex align-items-center  btn-collapse-cont">
+                        <span class="commentsCount"><%= comments.length %></span>
+                        <button class="btn btn-primary btn-icon offset collapseShowBtn" data-bs-toggle="collapse" data-text="show"
+                            data-bs-target="#commentsCollapse" aria-expanded="false" aria-controls="commentsCollapse">
+                            <img src="/assets/img/icons/chevron-down-dark.svg" class="btn-io-up" alt="show">
+                        </button>
+                    </div>
+                </div>
+                <div class="collapse" id="commentsCollapse">
+                    <div class="a-comments-wrapper d-flex flex-column">
+                        <% for (const comment of comments) { %>
+                            <div class="comment compact d-flex"  id="comment-<%= comment.id %>">
+                                <div class="comment-user-img">
+                                    <a href="/user/<%= comment.userId %>" class="a-plain imgLink">
+                                        <div class="imgCont">
+                                            <% if (comment.userAvatarLocation) { %>
+                                                <img src="<%=`${process.env.SERVER_URL}:${process.env.SERVER_PORT}/${comment.userAvatarLocation}`%>" alt="user-avatar" class="u-img">
+                                            <% } else { %>
+                                                <img src="/assets/img/userAvatarDefault.png" alt="user-avatar" class="u-img">
+                                            <% } %>
+                                            <% if (comment.userHasPremium) { %>
+                                            <div class="premium-icon-cont d-flex justify-content-center align-items-center"><img class="user-premium-icon smaller" src="/assets/img/icons/star.svg" alt="premium"></div>
+                                            <% } %>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="comment-content">
+                                    <div class="comment-header d-flex justify-content-between align-items-center">
+                                        <div class="comment-h-left d-flex align-items-center">
+                                            <div class="comment-main-heading d-flex align-items-center">
+                                                <h6 class="card-item-id">#<%= comment.id %></h6>
+                                                <a href="/user/<%= comment.userId %>" class="a-plain italic comment-userName"><h4 class="heading gradient"> <%= comment.userName %> </h4></a>
+                                            </div>
+                                            <div class="circle-divider-xs"></div>
+                                            <p class="poppins-thin-italic" style="font-size: 16px;"> <%= locals.globals.epochSecToDateString(comment.dateCreatedS) %> </p>
+                                            <% if (comment.postUserId == comment.userId) { %> 
+                                            <div class="circle-divider-xs"></div>
+                                            <span class="badge rounded-pill primary-badge">Author</span>
+                                            <% } %>
+                                        </div>
+                                        <div class="comment-h-right d-flex align-items-center">
+                                            <div class="comment-btns-action d-flex align-items-center">
+                                                <a href="/post/<%= comment.postId %>/#comment-<%= comment.id %>" role="button" class="btn btn-secondary btn-icon a-plain">
+                                                    <img src="/assets/img/icons/arrow-up-right.svg" alt="view">
+                                                </a>
+                                                <!-- <button class="btn btn-secondary btn-icon">
+                                                    <img src="/assets/img/icons/edit.svg" alt="edit">
+                                                </button> -->
+                                                <button class="btn btn-secondary btn-icon" data-post-id="<%= comment.postId %>" data-comment-id="<%= comment.id %>"
+                                                    data-modal-body-text="You are about to delete a comment" data-modal-action-type="deleteComment"
+                                                    onclick="showConfirmModal(event)">
+                                                    <img src="/assets/img/icons/delete.svg" alt="delete">
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="comment-body">
+                                        <p> <%= comment.content %> </p>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <%- include("includes/footer.ejs") %>
+        <%- include("includes/scrollToTop.ejs") %>
+    </body>
+</html>

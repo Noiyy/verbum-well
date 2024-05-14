@@ -1,0 +1,90 @@
+.user-wrapper {
+    margin-top: 48px;
+    padding: 32px;
+    border-radius: 16px;
+    background-color: var(--c_text-5a);
+    gap: 32px;
+    overflow: hidden;
+    flex-wrap: wrap;
+}
+
+.user-heading {
+    gap: 16px;
+}
+
+#user-profile {
+    margin-bottom: 72px;
+}
+
+.user-details {
+    flex-wrap: wrap;
+    flex: 5;
+}
+
+.user-misc {
+    gap: 16px;
+}
+
+#user-profile .user-avatar {
+    position: relative;
+}
+
+#user-profile .user-avatar > img {
+    width: 200px;
+    border-radius: 50%;
+    height: 200px;
+    object-fit: cover;
+}
+
+#user-profile .user-avatar .overlay-img-choose {
+    display: flex;
+    opacity: 0;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.2s ease-in-out;
+}
+
+#user-profile .user-avatar .overlay-img-choose img {
+    width: 64px;
+    height: 64px;
+}
+
+#user-profile .user-avatar:hover .overlay-img-choose  {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.user-stats {
+    gap: 16px;
+    flex: 1;
+}
+
+.user-stat-card {
+    border-radius: 16px;
+    padding: 16px;
+    background-color: var(--c_secondary-20a);
+    flex: 1;
+}
+
+#user-posts {
+    margin-bottom: 96px;
+}
+
+.posts-heading {
+    border-bottom: 1px solid var(--c_text-10a);
+}
+
+.posts-heading, .comments-heading {
+    margin-bottom: 32px;
+}
+
+#userAvatar-modal .auth-modal-body {
+    width: 66%;
+}

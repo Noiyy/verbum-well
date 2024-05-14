@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <%- include("includes/baseHead.ejs") %>
+        <link rel="stylesheet" href="/assets/css/posts.css">
+        <link rel="stylesheet" href="/assets/css/user.css">
+        <link rel="stylesheet" href="/assets/css/write.css">
+        <title>VW | Write </title>
+
+        <script src="/assets/js/write.js" defer></script>
+    </head>
+    <body>
+        <div class="page-load-animation fast"></div>
+        <div class="page-load-overlay fast"></div>
+
+        <%- include("includes/header.ejs") %>
+        <%- include("includes/authModal.ejs") %>
+        <%- include("includes/sidebarMenu.ejs", {active: "write"}) %>
+
+        <section id="write">
+            <div class="container">
+                <div class="d-flex">
+                    <h1 class="heading h-1"> Write a post </h1>
+                </div>
+                <div class="d-flex flex-column text-center write-title-wrapper">
+                    <h3 class="heading h-3 gradient">Title</h3>
+                    <input class="form-control" type="text" name="postTitle" id="w_postTitle" placeholder="...">
+                </div>
+                <div class="d-flex write-options-bar">
+                    <div class="write-options-bar-content d-flex align-items-center justify-content-between flex-grow-1">
+                        <div class="options-left d-flex align-items-center">
+                            <a role="button" class="a-plain writeActive">Editor</a>
+                            <a role="button" class="a-plain">Preview</a>
+                        </div>
+                        <div class="options-mid d-flex align-items-center">
+                            <button class="btn btn-secondary btn-icon" onclick="createOptionEl('heading')">
+                                <img src="./assets/img/icons/heading.svg" alt="heading">
+                            </button>
+                            <button class="btn btn-secondary btn-icon" onclick="createOptionEl('subHeading')">
+                                <img src="./assets/img/icons/subheading.svg" alt="subHeading">
+                            </button>
+                            <button class="btn btn-secondary btn-icon" onclick="createOptionEl('paragraph')">
+                                <img src="./assets/img/icons/paragraph.svg" alt="paragraph">
+                            </button>
+                            <button class="btn btn-secondary btn-icon" onclick="createOptionEl('image')">
+                                <img src="./assets/img/icons/image.svg" alt="image">
+                            </button>
+                            <button class="btn btn-secondary btn-icon" onclick="createOptionEl('linebreak')">
+                                <img src="./assets/img/icons/linebreak.svg" alt="linebreak">
+                            </button>
+                        </div>
+                        <div class="options-right d-flex align-items-center">
+                            <button class="btn btn-secondary btn-icon" onclick="clearWriteItems()">
+                                <img src="./assets/img/icons/refresh.svg" alt="clear">
+                            </button>
+                            <form id="writeForm">
+                                <button class="btn btn-primary" type="submit">Post</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex write-content flex-column">
+                    <!-- <%- include("includes/write/w_heading.ejs") %>
+                    <%- include("includes/write/w_paragraph.ejs") %>
+                    <%- include("includes/write/w_subHeading.ejs") %>
+                    <%- include("includes/write/w_linebreak.ejs") %> -->
+                    <!-- <%- include("includes/write/w_image.ejs") %> -->
+
+                    <!-- <%- include("includes/write/w_linebreak.ejs") %>
+
+                    <%- include("includes/write/w_paragraph.ejs") %>
+                    <%- include("includes/write/w_linebreak.ejs") %>
+
+                    <%- include("includes/write/w_image.ejs") %>
+                    <%- include("includes/write/w_linebreak.ejs") %>
+
+                    <%- include("includes/write/w_subHeading.ejs") %>
+                    <%- include("includes/write/w_paragraph.ejs") %>
+                    <%- include("includes/write/w_linebreak.ejs") %>
+
+                    <%- include("includes/write/w_heading.ejs") %>
+                    <%- include("includes/write/w_paragraph.ejs") %>
+                    <%- include("includes/write/w_paragraph.ejs") %> -->
+                </div>
+            </div>
+        </section>
+
+        <%- include("includes/footer.ejs") %>
+        <%- include("includes/scrollToTop.ejs") %>
+    </body>
+</html>

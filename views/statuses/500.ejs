@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+    <html lang="en" data-bs-theme="dark">
+    <head>
+        <%- include("../includes/baseHead.ejs") %>
+        <title> VW - 500</title>
+    </head>
+    <body>
+        <%- include("../includes/header.ejs") %>
+        <%- include("../includes/authModal.ejs") %>
+        <%- include("../includes/sidebarMenu.ejs", {active: ""}) %>
+
+        <main class="d-flex flex-grow-1 flex-column align-items-center justify-content-center" style="margin-top: 96px;">
+            <h1 class="heading h-1 gradient">500 </h1>
+            <h3 class="heading h-3" style="margin-left: 8px !important;"> Server error! </h3>
+            <p> Please contact an administrator </p>
+        </main>
+        <%- include("../includes/footer.ejs") %>
+    </body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <%- include("includes/baseHead.ejs") %>
+        <link rel="stylesheet" href="./assets/css/home.css">
+        <title>VW | Home </title>
+        <script src="./assets/js/counter.js" defer></script>
+    </head>
+    <body>
+        <div class="page-load-animation"></div>
+        <div class="page-load-overlay"></div>
+
+        <%- include("includes/header.ejs") %>
+        <%- include("includes/authModal.ejs") %>
+        <%- include("includes/sidebarMenu.ejs", {active: "home"}) %>
+
+        <section id="hero" class="d-flex align-items-center">
+            <div class="container">
+                <div class="row d-flex align-items-center">
+                    <div class="col">
+                        <h1 class="heading h-1"> Bring <span class="outline">your</span> ideas & <span class="block-underline">stories</span>
+                             into <span class="gradient">life</span>
+                        </h1>
+                        <div class="hero-btn-group">
+                            <a class="btn btn-secondary a-plain" href="/posts">Explore</a>
+                            <% if (!locals.authUser) { %>
+                            <a class="btn btn-primary a-plain" onclick="showModal('auth-modal')">Sign In</a>
+                            <% } else { %>
+                            <a class="btn btn-primary a-plain" href="/write">Write</a>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="col bento"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="stat-cards">
+            <div class="container d-flex flex-column justify-content-center">
+                <div class="d-flex justify-content-end">
+                    <h1 class="heading h-1 cards-title">We help you be heard</h1>
+                </div>
+                <div class="cards-wrapper row d-flex flex-grow-1">
+                    <div class="col-4">
+                        <div class="stat-card d-flex justify-content-center align-items-center">
+                            <h1 class="heading h-1 gradient numberCount" data-count="<%= postsCount %>"></h1>
+                            <h2 class="heading h-2"> Posts </h2>
+                            <p>... and counting ... </p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="stat-card d-flex justify-content-center align-items-center">
+                            <h1 class="heading h-1 gradient numberCount" data-count="<%= commentsCount %>"></h1>
+                            <h2 class="heading h-2"> Comments </h2>
+                            <p>... and counting ... </p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="stat-card d-flex justify-content-center align-items-center">
+                            <h1 class="heading h-1 gradient numberCount" data-count="<%= usersCount %>"></h1>
+                            <h2 class="heading h-2"> Users </h2>
+                            <p>... and counting ... </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <h3 class="heading h-3 outline"> Never stopping growing... </h3>
+                </div>
+            </div>
+        </section>
+
+        <section id="post-cards">
+            <div class="container flex-column d-flex">
+                <div class="d-flex justify-content-end">
+                    <h1 class="heading h-1"> newest posts </h1>
+                </div>
+                <div class="cards-wrapper row d-flex">
+                    <div class="col-6 card-col">
+                        <% for (let i = 0; i < 2; i++) { %>
+                            <% if (newestPosts[i]) { %>
+                            <a href="/post/<%= newestPosts[i].id %>" class="a-plain">
+                                <div class="post-card <% if (i % 2 == 0) { %> primary <% } else { %> accent <% } %>">
+                                    <div class="post-card-overlay">
+                                        <h2 class="heading h-2 uppercase"> view</h2>
+                                        <img src="/assets/img/icons/arrow-up-right.svg">
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-header-img">
+                                            <img src="/assets/img/pg_semestralka-2-s.jpg" alt="img">
+                                            <p class="card-img-author poppins-light-italic thin"> <%= newestPosts[i].authorName %> </p>
+                                        </div>
+                                        <div class="card-body-text">
+                                            <div class="card-text">
+                                                <h5 class="card-heading gradient"> <%= newestPosts[i].title %> </h5>
+                                                <p> <%= newestPosts[i].previewContent.content %> </p>
+                                            </div>
+                                            <div class="card-footer d-flex justify-content-end align-items-center">
+                                                <p class="poppins-light-italic thin">8 min read</p>
+                                                <div class="circle-divider-xs"></div>
+                                                <p class="poppins-thin-italic" style="font-size: 16px;"> <%= locals.globals.epochSecToDateString(newestPosts[i].dateCreatedS) %> </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <% } %>
+                        <% } %>
+                    </div>
+                    <div class="col-6 second-col card-col">
+                        <% for (let i = 2; i < 4; i++) { %>
+                            <% if (newestPosts[i]) { %>
+                            <a href="/post/<%= newestPosts[i].id %>" class="a-plain">
+                                <div class="post-card <% if (i % 2 == 0) { %> accent <% } else { %> primary <% } %>">
+                                    <div class="post-card-overlay">
+                                        <h2 class="heading h-2 uppercase"> view</h2>
+                                        <img src="/assets/img/icons/arrow-up-right.svg">
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-header-img">
+                                            <img src="/assets/img/pg_semestralka-2-s.jpg" alt="img">
+                                            <p class="card-img-author poppins-light-italic thin"> <%= newestPosts[i].authorName %> </p>
+                                        </div>
+                                        <div class="card-body-text">
+                                            <div class="card-text">
+                                                <h5 class="card-heading gradient"> <%= newestPosts[i].title %> </h5>
+                                                <p> <%= newestPosts[i].previewContent.content %> </p>
+                                            </div>
+                                            <div class="card-footer d-flex justify-content-end align-items-center">
+                                                <p class="poppins-light-italic thin">8 min read</p>
+                                                <div class="circle-divider-xs"></div>
+                                                <p class="poppins-thin-italic" style="font-size: 16px;"> <%= locals.globals.epochSecToDateString(newestPosts[i].dateCreatedS) %> </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <% } %>
+                        <% } %>
+                    </div>
+                    <h3 class="heading h-3">
+                        <a href="/posts" class="a-plain">
+                            ... <span class="block-underline link">view more</span>
+                            <img src="./assets/img/icons/arrow-up-right.svg" alt="">
+                        </a>
+                    </h3>
+                </div>
+            </div>
+        </section>
+
+        <%- include("includes/footer.ejs") %>
+        <%- include("includes/scrollToTop.ejs") %>
+    </body>
+</html>

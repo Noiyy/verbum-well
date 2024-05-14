@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <%- include("includes/baseHead.ejs") %>
+        <link rel="stylesheet" href="./assets/css/posts.css">
+        <title>VW | Explore </title>
+    </head>
+    <body>
+        <div class="page-load-animation fast"></div>
+        <div class="page-load-overlay fast"></div>
+
+        <%- include("includes/header.ejs") %>
+        <%- include("includes/authModal.ejs") %>
+        <%- include("includes/sidebarMenu.ejs", {active: "posts"}) %>
+
+        <section id="posts-main">
+            <div class="container">
+                <div class="d-flex">
+                    <h1 class="heading h-1"> Posts </h1>
+                </div>
+                <div class="row d-flex">
+                    <div class="filter-options d-flex justify-content-between">
+                        <div class="search-bar d-flex align-items-center">
+                            <span><img src="./assets/img/icons/search.svg"></span>
+                            <input type="text" placeholder="Enter your search query">
+                        </div>
+
+                        <div class="filters-bar d-flex justify-content-end align-items-center">
+                            <!-- <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                                <label class="form-check-label" for="flexCheckChecked">
+                                  Show premium posts
+                                </label>
+                            </div> -->
+                            Filter by
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Date
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="selected"><a class="dropdown-item a-plain" >Date</a></li>
+                                    <li><a class="dropdown-item a-plain" >Title</a></li>
+                                    <li><a class="dropdown-item a-plain" >Author</a></li>
+                                    <li><a class="dropdown-item a-plain" >Read time</a></li>
+                                </ul>
+                            </div>
+                            <button class="btn btn-secondary btn-text-icon" id="postsOrderBtn" data-order="asc"> 
+                                Asc.
+                                <img src="/assets/img/icons/ascend.svg">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex post-cards-wrapper flex-column">
+                    <% for (const post of posts) { %>
+                    <a href="/post/<%= post.id %>" class="a-plain" role="button">
+                        <div class="post-card">
+                            <div class="post-card-content col-8">
+                                <div class="card-body-text">
+                                    <div class="card-text">
+                                        <div class="card-text-header d-flex justify-content-between">
+                                            <h5 class="card-heading gradient"> <%= post.title %> </h5>
+                                            <h6 class="poppins-thin"> <%= post.authorName %> </h6>
+                                        </div>
+                                        <p class="post-card-preview"> <%= post.previewContent.content %> </p>
+                                    </div>
+                                    <div class="card-footer d-flex justify-content-between align-items-center">
+                                        <div class="d-flex card-btn-group">
+                                            <% if (locals.authUser && (post.userId == locals.authUser.id || locals.authUser.isAdmin)) { %>
+                                            <button class="btn btn-secondary btn-icon">
+                                                <img src="./assets/img/icons/edit.svg" alt="edit">
+                                            </button>
+                                            <button class="btn btn-secondary btn-icon">
+                                                <img src="./assets/img/icons/delete.svg" alt="delete">
+                                            </button>
+                                            <% } %>
+                                        </div>
+
+                                        <div class="d-flex right align-items-center">
+                                            <p class="poppins-light-italic thin">8 min read</p>
+                                            <div class="circle-divider-xs"></div>
+                                            <p class="poppins-thin-italic" style="font-size: 16px;"> <%= locals.globals.epochSecToDateString(post.dateCreatedS) %> </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="post-lnd-card-img col-4" style="background-image: url('./assets/img/pg_semestralka-2-s.jpg')"></div>
+                        </div>
+                    </a>
+                    <% } %>
+                </div>
+            </div>
+        </section>
+
+        <%- include("includes/footer.ejs") %>
+        <%- include("includes/scrollToTop.ejs") %>
+    </body>
+</html>

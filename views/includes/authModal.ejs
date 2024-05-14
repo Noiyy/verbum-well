@@ -1,0 +1,37 @@
+<script src="/assets/js/auth.js" defer></script>
+
+<div class="auth-modal justify-content-center align-items-center" id="auth-modal">
+    <div class="auth-modal-body d-flex flex-column">
+        <div class="auth-modal-header d-flex justify-content-between align-items-center">
+            <h3 class="heading h-3 gradient text-center">
+                Sign In
+            </h3>
+            <div class="d-flex btn close-btn" onclick="hideModal('auth-modal')">
+                <img src="/assets/img/icons/menu-icon-close.svg" alt="close">
+            </div>
+        </div>
+        <div class="auth-modal-content">
+            <form id="signInForm">
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="form-submit d-flex justify-content-center">
+                    <button id="authSubmitBtn" class="btn btn-primary" type="submit">
+                        Sign In
+                    </button>
+                </div>
+            </form>
+            <p class="other-option d-flex flex-column align-items-center text-center">
+                Don't have an account yet? <a onclick="changeToAuthForm(true)" class="text-center "> Sign up </a>
+            </p>
+        </div>
+        <div class="auth-modal-footer">
+
+        </div>
+    </div>
+</div>

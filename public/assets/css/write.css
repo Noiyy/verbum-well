@@ -1,0 +1,131 @@
+#write {
+    margin-top: 88px;
+}
+
+.write-options-bar {
+    gap: 16px;
+    padding: 8px;
+    background-color: transparent;
+    border-bottom: 1px solid var(--c_text-10a);
+}
+
+.write-options-bar-content {
+    flex-wrap: wrap;
+    row-gap: 8px;
+    gap: 16px;
+}
+
+.write-options-bar .options-left, .write-options-bar .options-mid, .write-options-bar .options-right {
+    gap: 8px;
+}
+
+.write-options-bar .options-left {
+    padding-right: 32px;
+    border-right: 1px solid var(--c_text-10a);
+}
+
+.write-options-bar .options-right {
+    padding-left: 32px;
+    border-left: 1px solid var(--c_text-10a);
+}
+
+.write-options-bar .options-mid {
+    background-color: var(--c_text-10a);
+    border-radius: 16px;
+    padding: 8px 16px;
+}
+
+.writeActive {
+    font-weight: 700;
+    background-color: var(--c_text-10a);
+    padding: 8px;
+    border-radius: 16px;
+}
+
+.write-content {
+    margin-top: 48px;
+    gap: 64px;
+}
+
+.write-container {
+    flex: 1;
+    background-color: transparent;
+    border-radius: 16px;
+    border: 2px solid var(--c_text-50a);
+    padding: 16px;
+    position: relative;
+}
+
+.write-container:nth-child(even) {
+    border: 2px solid var(--c_accent) !important;
+}
+
+.write-input-wrapper {
+    border-radius: 16px;
+}
+
+.write-type-info {
+    position: absolute;
+    top: -22px;
+    left: -16px;
+    background: var(--c_secondary);
+    border-radius: 16px;
+    padding: 4px 16px;
+    gap: 24px;
+    font-size: 14px;
+    font-weight: 200;
+}
+
+.write-btn-options {
+    position: absolute;
+    right: 0;
+    top: -22px;
+    gap: 8px;
+}
+
+.write-type-info .img-cont {
+    width: 24px;
+    height: 24px;
+}
+
+.write-type-info .img-cont img {
+    width: 70%;
+    height: 70%;
+}
+
+.write-container textarea {
+    border-radius: 16px;
+}
+
+.write-container .file-view-cont {
+    margin-top: 16px;
+}
+
+.write-container .file-view-cont img {
+    width: 50%;
+    height: auto;
+    border-radius: 16px;
+    border: 1px solid var(--c_accent-75a);
+}
+
+.line-break-separator {
+    width: 66%;
+    height: 1px;
+    background-color: var(--c_text-50a);
+}
+
+.write-title-wrapper {
+    margin-bottom: 64px;
+}
+
+.write-title-wrapper input {
+    font-size: 32px;
+    text-transform: capitalize;
+    font-weight: bold;
+    text-align: center;
+}
+
+.img-form-group-cont {
+    gap: 16px;
+    margin-top: 16px;
+}

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <%- include("includes/baseHead.ejs") %>
+        <link rel="stylesheet" href="/assets/css/posts.css">
+        <title>VW | <%= post.title %> </title>
+        
+        <script src="/assets/js/posts.js" defer></script>
+    </head>
+    <body data-bs-spy="scroll" data-bs-target="#scrollSpyNav" data-bs-smooth-scroll="true" tabindex="0" data-bs-offset="1200">
+        <div class="page-load-animation fast"></div>
+        <div class="page-load-overlay fast"></div>
+
+        <%- include("includes/header.ejs") %>
+        <%- include("includes/authModal.ejs") %>
+        <%- include("includes/sidebarMenu.ejs", {active: ""}) %>
+        <%- include("includes/confirmModal.ejs") %>
+
+        <section id="post">
+            <div class="post-landscape-img d-flex" style="background-image: url('/assets/img/pg_semestralka-2-s.jpg');">
+                <div class="img-overlay-tp"></div>
+                <div class="container d-flex flex-grow-1 flex-column justify-content-between" style="z-index: 5">
+                    <div class="above-title">
+                        <a href="/posts" role="button">
+                            <img src="/assets/img/icons/arrow-left-thin.svg">
+                            <span>back to posts</span>
+                        </a>
+                    </div>
+
+                    <div class="d-flex title-row justify-content-between align-items-center">
+                        <h1 id="postTitle" class="heading h-1"> <%= post.title %> </h1>
+                        <div class="author-wrapper d-flex flex-column align-items-end">
+                            <a href="/user/<%= post.userId %>" class="a-plain italic imgLink">
+                                <div class="author-info-wrapper d-flex align-items-center">
+                                    <h3 class="heading"> <%= post.authorName %> </h3>
+                                    <div class="author-img imgCont r50p">
+                                        <% if (post.authorAvatarLocation) { %>
+                                            <img src="<%=`${process.env.SERVER_URL}:${process.env.SERVER_PORT}/${post.authorAvatarLocation}`%>" alt="user-avatar">
+                                        <% } else { %>
+                                            <img src="/assets/img/userAvatarDefault.png" alt="user-avatar">
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="additional-post-info d-flex justify-content-end align-items-center">
+                                <a href="#comments" class="a-plain d-flex align-items-center comments-icon" role="button" style="gap: 8px">
+                                    <p class="poppins-light-italic thin commentsCount" style="font-size: 14px;"> <%= post.comments.length %> </p>
+                                    <img src="/assets/img/icons/comment.svg" alt="comments">
+                                </a>
+                                <div class="circle-divider-xs"></div>
+                                <p class="poppins-light-italic thin" style="font-size: 14px">8 min read</p>
+                                <div class="circle-divider-xs"></div>
+                                <p class="poppins-thin-italic" style="font-size: 16px;"> <%= locals.globals.epochSecToDateString(post.dateCreatedS) %> </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="d-flex justify-content-between post-wrapper">
+                    <!-- post -->
+                    <div class="post-content">
+                        <% for (const item of post.contents) { %>
+                            <% if (item.type == "heading") { %>
+                                <h2 id="heading-<%= item.id %>" class="heading h-2 gradient"> <%= item.content %> </h2>
+                            <% } else if (item.type == "subHeading") { %>
+                                <h3 id="subHeading-<%= item.id %>" class="heading h-3 accent"> <%= item.content %> </h3>
+                            <% } else if (item.type == "paragraph") { %>
+                                <div> <%= item.content %> </div>
+                            <% } else if (item.type == "linebreak") { %>
+                                <br>
+                            <% } else if (item.type == "image") { %>
+                                <div class="post-img">
+                                    <img src="<%=`${process.env.SERVER_URL}:${process.env.SERVER_PORT}/${item.imgLocation}`%>"
+                                        alt="<% if (item.imgAlt) { %><%= item.imgAlt %><% } else { %>img<% } %>">
+                                    <p class="img-under-text">Credit | <a href="<%= item.creditLink %>" target="_blank"> <%= item.creditName %> </a></p>
+                                </div>
+                        <% } } %>
+                    </div>
+
+                    <!-- scrollspy -->
+                    <div id="scrollSpyNav" class="d-flex flex-column align-items-end post-scrollspy">
+                        <% for (const heading of post.headings) { %>
+                        <a class="sp-item a-plain" href="#heading-<%= heading.id %>"> <%= heading.content %> </a>
+                            <% for (const subHeading of post.subHeadings) { %>
+                                <% if (subHeading.headingId == heading.id) { %>
+                                <div class="sp-subHeading d-flex flex-column align-items-end">
+                                    <a class="sp-item a-plain" href="#subHeading-<%= subHeading.id %>"> <%= subHeading.content %> </a>
+                                </div>
+                                <% } %>
+                            <% } %>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="comments">
+            <div class="container">
+                <div class="d-flex comments-heading justify-content-between align-items-center">
+                    <h1 class="heading h-1">Comments</h1>
+                    <h5 class="commentsCount"> <%= post.comments.length %> </h5>
+                </div>
+                <div class="d-flex comments-add-heading justify-content-end align-items-center">
+                    Add new comment
+                    <button class="btn btn-primary btn-icon offset collapseShowBtn" data-bs-toggle="collapse" data-text="show" id="addCommentCollapseBtn"
+                        data-bs-target="#newCommentCollapse" aria-expanded="false" aria-controls="newCommentCollapse">
+                        <img src="/assets/img/icons/chevron-down-dark.svg" class="btn-io-up" alt="show">
+                    </button>
+                </div>
+                <div class="collapse" id="newCommentCollapse">
+                    <div class="d-flex flex-column comment-add-wrapper">
+                        <form id="addCommentForm" class="d-flex flex-column" data-post-id="<%= post.id %>">
+                            <textarea class="form-control" id="newComment" name="newComment" placeholder="... I love this post! <3" rows="5"></textarea>
+                            <button class="btn btn-primary" type="submit">Add</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="d-flex comments-wrapper flex-column">
+                    <% if (post.comments.length > 0) { %>
+                    <% for (const comment of post.comments) { %>
+                    <div class="comment d-flex" id="comment-<%= comment.id %>">
+                        <div class="comment-user-img">
+                            <a href="/user/<%= comment.userId %>" class="a-plain imgLink">
+                                <div class="imgCont">
+                                    <% if (comment.userAvatarLocation) { %>
+                                        <img src="<%=`${process.env.SERVER_URL}:${process.env.SERVER_PORT}/${comment.userAvatarLocation}`%>" alt="user-avatar" class="u-img">
+                                    <% } else { %>
+                                        <img src="/assets/img/userAvatarDefault.png" alt="user-avatar" class="u-img">
+                                    <% } %>
+                                    <% if (comment.userHasPremium) { %>
+                                    <div class="premium-icon-cont d-flex justify-content-center align-items-center"><img class="user-premium-icon smaller" src="/assets/img/icons/star.svg" alt="premium"></div>
+                                    <% } %>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="comment-content">
+                            <div class="comment-header d-flex justify-content-between align-items-center">
+                                <div class="comment-h-left d-flex align-items-center">
+                                    <a href="/user/<%= comment.userId %>" class="a-plain italic comment-userName"><h4 class="heading gradient"> <%= comment.userName %> </h4></a>
+                                    <div class="circle-divider-xs"></div>
+                                    <p class="poppins-thin-italic" style="font-size: 16px;"> <%= locals.globals.epochSecToDateString(comment.dateCreatedS) %> </p>
+                                    <% if (post.userId == comment.userId) { %> 
+                                    <div class="circle-divider-xs"></div>
+                                    <span class="badge rounded-pill primary-badge">Author</span>
+                                    <% } %>
+                                    <% if (comment.userIsAdmin) { %>
+                                    <div class="circle-divider-xs"></div>
+                                    <span class="badge text-bg-danger">Admin</span>
+                                    <% } %>
+                                </div>
+                                <div class="comment-h-right d-flex align-items-center">
+                                    <div class="comment-btns-action d-flex align-items-center">
+                                        <% if (locals.authUser && (comment.userId == locals.authUser.id || locals.authUser.isAdmin)) { %>
+                                        <button class="btn btn-secondary btn-icon" onclick="editComment(event)" data-comment-id="<%= comment.id %>">
+                                            <img src="/assets/img/icons/edit.svg" alt="edit">
+                                        </button>
+                                        <button class="btn btn-secondary btn-icon" data-post-id="<%= post.id %>" data-comment-id="<%= comment.id %>"
+                                            data-modal-body-text="You are about to delete a comment" data-modal-action-type="deleteComment"
+                                            onclick="showConfirmModal(event)">
+                                            <img src="/assets/img/icons/delete.svg" alt="delete">
+                                        </button>
+                                        <% } %>
+                                    </div>
+                                    <div class="d-flex comment-likes align-items-center">
+                                        <%= comment.likeCount %>
+                                        <a class="a-plain" role="button"><img src="/assets/img/icons/like.svg" alt="like"></a>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="comment-body">
+                                <p> <%= comment.content %> </p>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                    <% }  else { %>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <h3 class="heading gradient">There are no comments yet! :(</h3>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </section>
+
+        <%- include("includes/footer.ejs") %>
+        <%- include("includes/scrollToTop.ejs") %>
+    </body>
+</html>

@@ -1,0 +1,32 @@
+<script src="/assets/js/confirmModal.js" defer></script>
+
+<div class="auth-modal justify-content-center align-items-center" id="confirm-modal">
+    <div class="auth-modal-body d-flex flex-column">
+        <div class="auth-modal-header d-flex justify-content-between align-items-center">
+            <h3 class="heading h-3 gradient text-center">
+                Are you sure?
+            </h3>
+            <div class="d-flex btn close-btn" onclick="hideModal('confirm-modal')">
+                <img src="/assets/img/icons/menu-icon-close.svg" alt="close">
+            </div>
+        </div>
+        <div class="auth-modal-content">
+            <form id="confirmModal-form">
+                <div class="mb-3 modalBody-text text-center">
+                    bodyText
+                </div>
+                <div class="form-submit d-flex justify-content-center" style="gap: 16px;">
+                    <button class="btn btn-secondary" type="submit">
+                        Yes
+                    </button>
+                    <button class="btn btn-primary" type="button" onclick="hideModal('confirm-modal')">
+                        No
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="auth-modal-footer">
+
+        </div>
+    </div>
+</div>

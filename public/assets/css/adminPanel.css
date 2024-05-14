@@ -1,0 +1,132 @@
+#a-users {
+    margin-top: 88px;
+}
+
+#a-users, #a-posts {
+    margin-bottom: 72px;
+}
+
+
+.users-heading {
+    border-bottom: 1px solid var(--c_text-10a);
+}
+
+.users-heading {
+    margin-bottom: 32px;
+}
+
+.a-users-wrapper, .a-posts-wrapper, .a-comments-wrapper {
+    gap: 16px;
+}
+
+.btn-collapse-cont {
+    gap: 16px;
+}
+
+/* .post-card .card-text-header {
+    margin-bottom: 16px;
+} */
+
+.card-text-header .right {
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.post-card-admin-btns {
+    gap: 8px;
+    background-color: var(--c_text-10a);
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+.post-card .card-body-text {
+    padding: 0 !important;
+}
+
+.comment-content {
+    overflow: hidden;
+}
+
+.comment .comment-body p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.comment-header, .comment-body {
+    padding: 8px !important;
+}
+
+.user-card {
+    gap: 16px;
+}
+
+.user-card-img {
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    border: 1px solid var(--c_text-10a);
+    background-color: var(--c_bg);
+}
+
+.user-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.user-card .user-card-content {
+    border-radius: 16px !important;
+    padding: 0 !important;
+    background-color: var(--c_text-5a);
+}
+
+.user-card .user-btns {
+    padding: 8px 16px;
+    background-color: var(--c_text-5a);
+}
+
+.user-card-heading {
+    padding-left: 16px;
+    gap: 8px;
+}
+
+.user-card:hover {
+    cursor: initial;
+}
+
+.post-card .card-text {
+    width: 100%;
+}
+
+.post-card .card-text h5 {
+    margin-bottom: 0px !important;
+}
+
+.card-text-heading, .comment-main-heading {
+    gap: 8px;
+}
+
+.post-card .card-text {
+    border: 0 !important;
+}
+
+.post-card-content {
+    overflow: hidden;
+    width: 100%;
+}
+
+.post-card .card-body-text {
+    overflow: hidden;
+}
+
+.post-card .card-body-text p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.post-card.compact .post-card-admin-btns {
+    padding: 8px;
+}
