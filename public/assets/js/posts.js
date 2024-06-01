@@ -70,67 +70,21 @@ const loadComments = async () => {
 	}
 }
 
-const addNewCommentElement = (comment, post) => {
-  const newCommentElement = document.createElement("div");
-  newCommentElement.className = "comment d-flex";
-  newCommentElement.id = `comment-${comment.id}`;
+const addNewCommentElement = async (comment, post) => {
+	const newCommentElement = document.createElement("div");
+	newCommentElement.className = "comment d-flex";
+	newCommentElement.id = `comment-${comment.id}`;
 
-  newCommentElement.innerHTML = `
-	<div class="comment-user-img">
-		<a href="/user/${comment.userId}" class="a-plain imgLink">
-			<div class="imgCont">
-				${comment.userAvatarLocation ? `
-					<img src="${process.env.SERVER_URL}:${process.env.SERVER_PORT}/${comment.userAvatarLocation}" alt="user-avatar" class="u-img">
-				` : `
-					<img src="/assets/img/userAvatarDefault.png" alt="user-avatar" class="u-img">
-				`}
-				${comment.userHasPremium ? `
-					<div class="premium-icon-cont d-flex justify-content-center align-items-center"><img class="user-premium-icon smaller" src="/assets/img/icons/star.svg" alt="premium"></div>
-				` : ``}
-			</div>
-		</a>
-	</div>
-	<div class="comment-content">
-		<div class="comment-header d-flex justify-content-between align-items-center">
-			<div class="comment-h-left d-flex align-items-center">
-				<a href="/user/${comment.userId}>" class="a-plain italic comment-userName"><h4 class="heading gradient"> ${comment.userName} </h4></a>
-				<div class="circle-divider-xs"></div>
-				<p class="poppins-thin-italic" style="font-size: 16px;"> ${epochSecToDateString(comment.dateCreatedS)} </p>
-				${post.userId == comment.userId ? `
-					<div class="circle-divider-xs"></div>
-					<span class="badge rounded-pill primary-badge">Author</span>
-				` : ``}
-				${comment.userIsAdmin ? `
-					<div class="circle-divider-xs"></div>
-					<span class="badge text-bg-danger">Admin</span>
-				` : ``}
-			</div>
-			<div class="comment-h-right d-flex align-items-center">
-				<div class="comment-btns-action d-flex align-items-center">
-					${comment.userId == post.authUser.id || post.authUser.isAdmin ? `
-					<button class="btn btn-secondary btn-icon">
-						<img src="/assets/img/icons/edit.svg" alt="edit">
-					</button>
-					<form action="/post/${post.id}/deleteComment/${comment.id}" method="POST">
-						<button class="btn btn-secondary btn-icon" type="submit">
-							<img src="/assets/img/icons/delete.svg" alt="delete">
-						</button>
-					</form>
-					` : ``}
-				</div>
-				<div class="d-flex comment-likes align-items-center">
-					${comment.likeCount}
-					<a class="a-plain" role="button"><img src="/assets/img/icons/like.svg" alt="like"></a>
-				</div>
-			</div>
-			
-		</div>
-		<div class="comment-body">
-			<p> ${comment.content} </p>
-		</div>
-	</div>
-  	`;
-
+	const commentBodyData = await fetch(`/getNewCommentElement`, {
+		method: "POST",
+		body: JSON.stringify({comment, post}),
+		headers: {
+			"Content-Type": "application/json",
+		}
+	});
+	const commentBody = await commentBodyData.json();
+	newCommentElement.innerHTML = commentBody;
+	
   	const commentsWrapper = document.querySelector(".comments-wrapper");
   	commentsWrapper.insertBefore(newCommentElement, commentsWrapper.firstChild);
 
