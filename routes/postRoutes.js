@@ -47,24 +47,25 @@ router.get("/write", (req, res) => {
 });
 
 router.post("/post/:postId/addComment", async (req, res) => {
-	if (!res.locals.authUser) return;
+	if (!res.locals.authUser) return res.status(401).json({success: false, message: "Not authenticated"});
 	const postId = req.params.postId;
 	const userId = res.locals.authUser.id;
 	try {
 		const { newComment } = req.body;
 		const dateCreated = Math.round(new Date().getTime()/1000);
 
+		if (!newComment || newComment.length < 1) return res.status(400).json({success: false, message: "Empty comment!"})
+
 		await dbHandler.addComment([userId, postId, newComment, dateCreated]);
 		console.log("success adding comment!");
 		res.json({success: true});
 	} catch (err) {
 		console.log(err.message);
-    	return res.status(500).send({ error: error.message });
+    	return res.status(500).send({ error: err.message });
 	}
 });
 
-router.post("/post/:postId/deleteComment/:commentId", async (req, res) => {
-	const postId = req.params.commentId;
+router.post("/deleteComment/:commentId", async (req, res) => {
 	const commentId = req.params.commentId;
 	try {
 		await dbHandler.deleteCommentById(commentId);
@@ -72,7 +73,7 @@ router.post("/post/:postId/deleteComment/:commentId", async (req, res) => {
 		res.json({success: true});
 	} catch (err) {
 		console.log(err.message);
-    	return res.status(500).send({ error: error.message });
+    	return res.status(500).send({ success: false, error: err.message });
 	}
 });
 
@@ -108,7 +109,7 @@ router.post("/editComment/:commentId", async (req, res) => {
 		res.json({success: true});
 	} catch (err) {
 		console.log(err.message);
-    	return res.status(500).send({ error: err.message });
+    	return res.status(500).send({success: false, error: err.message });
 	}
 });
 

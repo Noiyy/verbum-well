@@ -30,14 +30,17 @@ const doAddComment = async (event) => {
 	};
 
 	try {
-		const response = await fetch(`/post/${postId}/addComment`, {
+		const responseData = await fetch(`/post/${postId}/addComment`, {
 			method: "POST",
 			body: JSON.stringify(data),
 			headers: {
 				"Content-Type": "application/json",
 			}
 		});
-		if (response.ok) {
+		const response = await responseData.json();
+		if (response.success) {
+			toasts.showSuccess("Added comment.")
+
 			addCommentForm.newComment.value = null;
 			const btn = document.getElementById("addCommentCollapseBtn");
 			btn.click();
@@ -45,6 +48,7 @@ const doAddComment = async (event) => {
 			console.log("load comments???");
 			loadComments();
 		} else {
+			toasts.showError(response.message, responseData.status);
 			console.log("a", erorr.message);
 		}
 	} catch (err) {
@@ -103,17 +107,20 @@ const doDeleteComment = async (event, commentId, postId) => {
 	event.preventDefault();
 
 	try {
-		const response = await fetch(`/post/${postId}/deleteComment/${commentId}`, {
+		const responseData = await fetch(`/deleteComment/${commentId}`, {
 			method: "POST",
 			body: JSON.stringify({}),
 			headers: {
 				"Content-Type": "application/json",
 			}
 		});
-		if (response.ok) {
+		const response = await responseData.json();
+		if (response.success) {
 			console.log("deleted comment???");
+			toasts.showSuccess("Deleted comment.")
 			return deleteCommentElement(commentId);
 		} else {
+			toasts.showError("Failed to delete comment!")
 			console.log("???");
 		}
 	} catch (err) {
@@ -153,7 +160,7 @@ const editComment = (event) => {
 	textArea.value = commentContent;
 
 	const form = document.getElementById(`editComment-${commentId}-form`);
-	form.addEventListener("submit", (event) => doEditComment(event, commentId, commentBody))
+	form.addEventListener("submit", (event) => doEditComment(event, commentId, commentBody, commentContent))
 
 	const cancelBtn = document.getElementById(`cancelEdit-comment-${commentId}-btn`);
 	cancelBtn.addEventListener("click", () => cancelEditComment(commentBody, commentContent));
@@ -163,22 +170,27 @@ const cancelEditComment = (commentBody, commentContent) => {
 	commentBody.innerHTML = `<p> ${commentContent} </p>`;
 }
 
-const doEditComment = async (event, commentId, commentBody) => {
+const doEditComment = async (event, commentId, commentBody, prevContent) => {
 	event.preventDefault();
 	const newContent = event.target.newContent.value;
+
+	if (newContent == prevContent) return toasts.showError("Comment wasnt changed!");
 	
 	try {
-		const response = await fetch(`/editComment/${commentId}`, {
+		const responseData = await fetch(`/editComment/${commentId}`, {
 			method: "POST",
 			body: JSON.stringify({newContent}),
 			headers: {
 				"Content-Type": "application/json",
 			}
 		});
-		if (response.ok) {
+		const response = await responseData.json();
+		if (response.success) {
+			toasts.showSuccess("Edited comment.")
 			console.log("edited comment???");
 			cancelEditComment(commentBody, newContent);
 		} else {
+			toasts.showError("Failed to edit comment!");
 			console.log("??????");
 		}
 	} catch (err) {

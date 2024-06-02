@@ -54,7 +54,7 @@ router.post("/signIn", async (req, res) => {
         try {
             const user = await dbHandler.getUserByEmail(email);
             if (user.length === 0) {
-                console.log("User not found!");
+                return res.json({success: false, message: "User not found!"});
             }
             const hashedPassword = crypto
                 .pbkdf2Sync(password, user[0].salt, 1000, 64, "sha512")
@@ -73,10 +73,10 @@ router.post("/signIn", async (req, res) => {
                     avatarLocation: user[0].avatarLocation
                 };
                 req.session.save(() => {
-                    res.redirect("/");
+                    return res.json({success: true});
                 });
             } else {
-                console.log("Passwords don't match!");
+                return res.json({success: false, message: "Passwords don't match!"});
             }
         } catch (error) {
           console.log(error.message);

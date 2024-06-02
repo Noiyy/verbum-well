@@ -105,17 +105,19 @@ const doAuth = async (event, toSignUp) => {
         }
         console.log(data);
         try {
-            const response = await fetch(`/signIn`, {
+            const responseData = await fetch(`/signIn`, {
                 method: "POST",
                 body: JSON.stringify(data),
                 headers: {
                     "Content-Type": "application/json",
                 }
             });
-            if (response.ok) {
+            const response = await responseData.json();
+            if (response.success) {
                 console.log("signIn success!");
                 location.reload();
             } else {
+                toasts.showError(response.message);
                 console.log("a", erorr.message);
             }
         } catch (error) {
