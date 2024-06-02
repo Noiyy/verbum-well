@@ -17,13 +17,19 @@ router.post("/signUp", async (req, res) => {
             password.trim().length < 8 ||
             !email.includes("@")
         ) {
-            console.log("invalid input data");
+            let errMessage = null;
+            if (!email.includes("@")) errMessage = "Invalid email!";
+            else if (password.trim().length < 8) errMessage = "Password needs to be atleast 8 characters long!";
+            else if (passwordRepeat != password) errMessage = "Passwords don't match!";
             inputData.errorMessage = "Invalid input data";
-            return;
+            return res.status(400).json({success: false, message: errMessage});
         }
       
         const user = await dbHandler.getUserByEmail(email);
-        if (user.length > 0) { console.log("email is in use"); }
+        if (user.length > 0) { 
+            console.log("email is in use");
+            return res.status(400).json({success: false, message: "Email is already in use!"});
+        }
         if (inputData.errorMessage) { return; }
         console.log("user:", user);
       
@@ -36,8 +42,9 @@ router.post("/signUp", async (req, res) => {
         const dateCreatedS = dateCreatedMs/1000;
         console.log("date:", dateCreatedS);
         try {
-             await dbHandler.createUser([name, hashedPassword, salt, email, dateCreatedS]);
-             console.log("created user successfully!");
+            await dbHandler.createUser([name, hashedPassword, salt, email, dateCreatedS]);
+            console.log("created user successfully!");
+            return res.json({success: true});
         } catch (error) {
             console.log(error.message);
             return res.status(500).render("500");

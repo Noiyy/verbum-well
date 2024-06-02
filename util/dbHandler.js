@@ -240,7 +240,7 @@ const getPostLinebreaks = async (postId) => {
 const createUser = async (user) => {
     await db.query(`
         INSERT INTO users
-        (name, password, salt, email, dateCreated) VALUES
+        (name, password, salt, email, dateCreatedS) VALUES
         (?);`,
       [user]
     );

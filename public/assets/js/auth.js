@@ -81,17 +81,20 @@ const doAuth = async (event, toSignUp) => {
         }
         console.log(data);
         try {
-            const response = await fetch(`/signUp`, {
+            const responseData = await fetch(`/signUp`, {
                 method: "POST",
                 body: JSON.stringify(data),
                 headers: {
                     "Content-Type": "application/json",
                 }
             });
-            if (response.ok) {
+            const response = await responseData.json();
+            if (response.success) {
                 console.log("signUp success!");
+                toasts.showSuccess("Registered successfully! Please, login.")
                 changeToAuthForm(false);
             } else {
+                toasts.showError(response.message);
                 console.log("a", erorr.message);
             }
         } catch (error) {
