@@ -790,6 +790,17 @@ footer .footer-copy {
     box-shadow: 0 0 0 .25rem rgba(201, 160, 84, 0.25) !important;
 }
 
+.transparent-bg {
+    background: transparent !important;
+}
+
+.btn.transparent-bg {
+    transition: background-color 0.15s ease-in !important;
+}
+
+.btn.transparent-bg:hover {
+    background-color: var(--c_text-10a) !important;
+}
 
 /* input[type="file"] {
 

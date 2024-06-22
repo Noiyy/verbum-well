@@ -275,3 +275,220 @@ const doCreatePost = async (event) => {
 		console.log("doCreatePost", err.message);
 	}
 };
+
+/* DRAGGABLE WRITE ITEMS */
+const writeContent = document.querySelector(".write-content");
+const optionsBar = document.querySelector(".write-options-bar");
+const optionsBarRect = optionsBar.getBoundingClientRect();
+const footer = document.querySelector("footer");
+
+let draggableItem;
+
+let pointerStartX;
+let pointerStartY;
+
+const setupDrag = () => {
+    if (!writeContent) return;
+
+    writeContent.addEventListener('mousedown', dragStart);
+    writeContent.addEventListener('touchstart', dragStart)
+
+    document.addEventListener('mouseup', dragEnd);
+    document.addEventListener('touchend', dragEnd);
+}
+
+const dragStart = (e) => {
+    if (e.target.classList.contains('w-reorder-btn')) {
+        draggableItem = e.target.closest('.write-container')
+    } else if (e.target.classList.contains('w-reorder-btn-img')) {
+        let btn = e.target.parentNode;
+        draggableItem = btn.closest('.write-container');
+    }
+    if (!draggableItem) return;
+
+    pointerStartX = e.clientX || e.touches[0].clientX;
+    pointerStartY = e.clientY || e.touches[0].clientY;
+
+    disablePageScroll();
+    initDraggableItem();
+    initItemsState();
+
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('touchmove', drag, { passive: false })
+}
+
+const initItemsState = () => {
+    getIdleItems().forEach((item, i) => {
+      if (getAllItems().indexOf(draggableItem) > i) {
+        item.dataset.isAbove = '';
+      }
+    })
+}
+
+let items = [];
+
+const getAllItems = () => {
+  if (!items?.length) {
+    items = Array.from(writeContent.querySelectorAll('.write-container'));
+  }
+  return items
+}
+
+const getIdleItems = () => {
+  return getAllItems().filter((item) => item.classList.contains('is-idle'));
+}
+
+const initDraggableItem = () => {
+    draggableItem.classList.remove('is-idle')
+    draggableItem.classList.add('is-draggable')
+}
+
+const updateIdleItemsStateAndPosition = () => {
+    const draggableItemRect = draggableItem.getBoundingClientRect()
+    const draggableItemY =
+      draggableItemRect.top + draggableItemRect.height / 2
+    const ITEMS_GAP = 64;
+  
+    // Update state
+    getIdleItems().forEach((item) => {
+      const itemRect = item.getBoundingClientRect()
+      const itemY = itemRect.top + itemRect.height / 2
+      if (isItemAbove(item)) {
+        if (draggableItemY <= itemY) {
+          item.dataset.isToggled = ''
+        } else {
+          delete item.dataset.isToggled
+        }
+      } else {
+        if (draggableItemY >= itemY) {
+          item.dataset.isToggled = ''
+        } else {
+          delete item.dataset.isToggled
+        }
+      }
+    })
+  
+    // Update position
+    getIdleItems().forEach((item) => {
+      if (isItemToggled(item)) {
+        const direction = isItemAbove(item) ? 1 : -1
+        item.style.transform = `translateY(${
+          direction * (draggableItemRect.height + ITEMS_GAP)
+        }px)`
+      } else {
+        item.style.transform = ''
+      }
+    })
+}
+  
+const isItemAbove = (item) => {
+    return item.hasAttribute('data-is-above')
+}
+  
+const isItemToggled = (item) => {
+    return item.hasAttribute('data-is-toggled')
+}
+  
+const drag = (e) => {
+    if (!draggableItem) return;
+
+    e.preventDefault();
+
+    const currentPositionX = e.clientX || e.touches[0].clientX;
+    const currentPositionY = e.clientY || e.touches[0].clientY;
+  
+    const pointerOffsetX = currentPositionX - pointerStartX;
+    const pointerOffsetY = currentPositionY - pointerStartY;
+
+    const optionsBarY = optionsBar.offsetTop + optionsBarRect.height;
+    const draggedPos = draggableItem.offsetTop + pointerOffsetY;
+    const footerY = footer.offsetTop;
+    const gap = 24;
+
+    const draggableItemRect = draggableItem.getBoundingClientRect();
+    if (draggedPos <= optionsBarY + gap || (draggedPos + draggableItemRect.height) + gap >= footerY) return;
+    
+    draggableItem.style.transform = `translate(0px, ${pointerOffsetY}px)`;
+
+    updateIdleItemsStateAndPosition();
+}
+  
+const dragEnd = () => {
+    if (!draggableItem) return;
+
+    applyNewItemsOrder();
+    cleanupDrag();
+}
+
+const applyNewItemsOrder = () => {
+    const reorderedItems = [];
+  
+    getAllItems().forEach((item, index) => {
+      if (item === draggableItem) {
+        return;
+      }
+      if (!isItemToggled(item)) {
+        reorderedItems[index] = item;
+        return;
+      }
+      const newIndex = isItemAbove(item) ? index + 1 : index - 1
+      reorderedItems[newIndex] = item;
+    })
+  
+    for (let index = 0; index < getAllItems().length; index++) {
+      const item = reorderedItems[index];
+      if (typeof item === 'undefined') {
+        reorderedItems[index] = draggableItem;
+      }
+    }
+  
+    reorderedItems.forEach((item) => {
+      writeContent.appendChild(item);
+    })
+  }
+
+const unsetDraggableItem = () => {
+    draggableItem.style = null;
+    draggableItem.classList.remove('is-draggable');
+    draggableItem.classList.add('is-idle');
+    draggableItem = null;
+}
+
+const unsetItemState = () => {
+    getIdleItems().forEach((item, i) => {
+      delete item.dataset.isAbove;
+      delete item.dataset.isToggled;
+      item.style.transform = '';
+    })
+}
+
+const cleanupDrag = () => {
+    items = [];
+    unsetDraggableItem();
+    unsetItemState();
+    enablePageScroll();
+
+    document.removeEventListener('mousemove', drag);
+    document.removeEventListener('touchmove', drag);
+}
+
+const disablePageScroll = () => {
+    // handle scrollbar display "tilting"
+    const scrollbarWidth = getScrollbarWidth();
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+
+    document.body.style.overflow = 'hidden'
+    document.body.style.touchAction = 'none'
+    document.body.style.userSelect = 'none'
+}
+  
+const enablePageScroll = () => {
+    document.body.style.paddingRight = '0';
+
+    document.body.style.overflow = ''
+    document.body.style.touchAction = ''
+    document.body.style.userSelect = ''
+}
+  
+setupDrag();
+/* ----------------------- */

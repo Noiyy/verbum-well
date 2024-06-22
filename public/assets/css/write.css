@@ -54,10 +54,28 @@
     border: 2px solid var(--c_text-50a);
     padding: 16px;
     position: relative;
+    will-change: transform;
 }
 
 .write-container:nth-child(even) {
     border: 2px solid var(--c_accent) !important;
+}
+
+.write-container.is-idle {
+    transition: 0.25s ease transform;
+}
+  
+.write-container.is-idle .w-reorder-btn {
+    cursor: grab;
+}
+  
+.write-container.is-draggable,
+.write-container.is-draggable .w-reorder-btn {
+    cursor: grabbing;
+}
+
+.write-container.is-draggable {
+    z-index: 10;
 }
 
 .write-input-wrapper {
@@ -128,4 +146,20 @@
 .img-form-group-cont {
     gap: 16px;
     margin-top: 16px;
+}
+
+.w-reorder-btn {
+    position: absolute !important;
+    right: -24px;
+    top: 50%;
+    padding: 8px !important;
+    transform: translateY(-50%);
+}
+
+.w-reorder-btn-img {
+    height: 60%;
+    background-image: url("../img/icons/drag.svg") !important;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+    background-position: center !important;
 }
