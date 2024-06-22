@@ -2,6 +2,8 @@ const clearWriteItems = () => {
     console.log("clear");
     const writeContent = document.querySelector(".write-content");
     writeContent.innerHTML = "";
+
+    cleanupDrag();
 };
 
 const writeForm = document.getElementById("writeForm");
@@ -10,7 +12,7 @@ writeForm.addEventListener("submit", (event) => doCreatePost(event));
 const createOptionEl = (type) => {
     const writeContent = document.querySelector(".write-content");
     const optionEl = document.createElement("div");
-    optionEl.className = "d-flex write-container flex-column";
+    optionEl.className = "d-flex write-container flex-column is-idle";
 
     switch (type) {
         case "heading":
@@ -33,6 +35,10 @@ const createOptionEl = (type) => {
                     </div>
             
                     <textarea form="writeForm" type="text" class="form-control" placeholder="..." name="content" required></textarea>
+
+                    <button class="btn transparent-bg btn-icon w-reorder-btn">
+                        <div class="w-reorder-btn-img"></div>
+                    </button>
                 </div>
             `;
             break;
@@ -56,6 +62,10 @@ const createOptionEl = (type) => {
                     </div>
             
                     <textarea form="writeForm" type="text" class="form-control" placeholder="..." name="content" required></textarea>
+
+                    <button class="btn transparent-bg btn-icon w-reorder-btn">
+                        <div class="w-reorder-btn-img"></div>
+                    </button>
                 </div>
             `;
             break;
@@ -79,6 +89,10 @@ const createOptionEl = (type) => {
                     </div>
             
                     <textarea form="writeForm" type="text" class="form-control" placeholder="..." name="content" required></textarea>
+
+                    <button class="btn transparent-bg btn-icon w-reorder-btn">
+                        <div class="w-reorder-btn-img"></div>
+                    </button>
                 </div>
             `;
             break;
@@ -125,6 +139,9 @@ const createOptionEl = (type) => {
                     <div class="file-view-cont d-flex justify-content-center align-items-center">
                         <img src="./assets/img/pg_semestralka-2-s.jpg" alt="uploadedImg">
                     </div>
+                    <button class="btn transparent-bg btn-icon w-reorder-btn">
+                        <div class="w-reorder-btn-img"></div>
+                    </button>
                 </div>
             `;
             break;
@@ -145,6 +162,10 @@ const createOptionEl = (type) => {
                     </div>
             
                     <div class="d-flex line-break-separator"></div>
+
+                    <button class="btn transparent-bg btn-icon w-reorder-btn">
+                        <div class="w-reorder-btn-img"></div>
+                    </button>
                 </div>
             `;
             break;
@@ -156,6 +177,8 @@ const deleteOption = (event) => {
     const btn = event.target.classList.contains("btn") ? event.target : event.target.parentNode;
     const optionEl = btn.parentNode.parentNode.parentNode;
     optionEl.remove();
+
+    cleanupDrag();
 }
 
 const clearOption = (event) => {
