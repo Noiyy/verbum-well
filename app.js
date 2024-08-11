@@ -21,7 +21,7 @@ const sessionOptions = {
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.SESSION_DB,
-  };
+};
   
 const sessionStore = new MySQLStore(sessionOptions);
 app.use(
