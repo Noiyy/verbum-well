@@ -39,7 +39,7 @@
                         <div class="user-card post-card compact">
                             <div class="user-card-img d-flex">
                                 <% if (user.avatarLocation) { %>
-                                    <img src="<%=`${process.env.SERVER_URL}:${process.env.SERVER_PORT}/${user.avatarLocation}`%>" alt="user-avatar">
+                                    <img src="<%=`${process.env.SERVER_URL}/${user.avatarLocation}`%>" alt="user-avatar">
                                 <% } else { %>
                                     <img src="/assets/img/userAvatarDefault.png" alt="user-avatar" style="border: 4px solid var(--c_bg)">
                                 <% } %>
@@ -133,7 +133,7 @@
                                     <a href="/user/<%= comment.userId %>" class="a-plain imgLink">
                                         <div class="imgCont">
                                             <% if (comment.userAvatarLocation) { %>
-                                                <img src="<%=`${process.env.SERVER_URL}:${process.env.SERVER_PORT}/${comment.userAvatarLocation}`%>" alt="user-avatar" class="u-img">
+                                                <img src="<%=`${process.env.SERVER_URL}/${comment.userAvatarLocation}`%>" alt="user-avatar" class="u-img">
                                             <% } else { %>
                                                 <img src="/assets/img/userAvatarDefault.png" alt="user-avatar" class="u-img">
                                             <% } %>

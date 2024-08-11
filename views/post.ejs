@@ -35,7 +35,7 @@
                                     <h3 class="heading"> <%= post.authorName %> </h3>
                                     <div class="author-img imgCont r50p">
                                         <% if (post.authorAvatarLocation) { %>
-                                            <img src="<%=`${process.env.SERVER_URL}:${process.env.SERVER_PORT}/${post.authorAvatarLocation}`%>" alt="user-avatar">
+                                            <img src="<%=`${process.env.SERVER_URL}/${post.authorAvatarLocation}`%>" alt="user-avatar">
                                         <% } else { %>
                                             <img src="/assets/img/userAvatarDefault.png" alt="user-avatar">
                                         <% } %>
@@ -71,7 +71,7 @@
                                 <br>
                             <% } else if (item.type == "image") { %>
                                 <div class="post-img">
-                                    <img src="<%=`${process.env.SERVER_URL}:${process.env.SERVER_PORT}/${item.imgLocation}`%>"
+                                    <img src="<%=`${process.env.SERVER_URL}/${item.imgLocation}`%>"
                                         alt="<% if (item.imgAlt) { %><%= item.imgAlt %><% } else { %>img<% } %>">
                                     <p class="img-under-text">Credit | <a href="<%= item.creditLink %>" target="_blank"> <%= item.creditName %> </a></p>
                                 </div>
@@ -124,7 +124,7 @@
                             <a href="/user/<%= comment.userId %>" class="a-plain imgLink">
                                 <div class="imgCont">
                                     <% if (comment.userAvatarLocation) { %>
-                                        <img src="<%=`${process.env.SERVER_URL}:${process.env.SERVER_PORT}/${comment.userAvatarLocation}`%>" alt="user-avatar" class="u-img">
+                                        <img src="<%=`${process.env.SERVER_URL}/${comment.userAvatarLocation}`%>" alt="user-avatar" class="u-img">
                                     <% } else { %>
                                         <img src="/assets/img/userAvatarDefault.png" alt="user-avatar" class="u-img">
                                     <% } %>

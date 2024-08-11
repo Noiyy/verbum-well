@@ -160,7 +160,7 @@ router.post("/getNewCommentElement", async (req, res) => {
 			<a href="/user/${comment.userId}" class="a-plain imgLink">
 				<div class="imgCont">
 					${comment.userAvatarLocation ? `
-						<img src="${process.env.SERVER_URL}:${process.env.SERVER_PORT}/${comment.userAvatarLocation}" alt="user-avatar" class="u-img">
+						<img src="${process.env.SERVER_URL}/${comment.userAvatarLocation}" alt="user-avatar" class="u-img">
 					` : `
 						<img src="/assets/img/userAvatarDefault.png" alt="user-avatar" class="u-img">
 					`}

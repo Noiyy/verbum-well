@@ -6,7 +6,7 @@
             <div class="imgCont r50p">
                 <% if (locals.authUser) { %>
                     <% if (locals.authUser.avatarLocation) { %>
-                        <img src="<%=`${process.env.SERVER_URL}:${process.env.SERVER_PORT}/${authUser.avatarLocation}`%>" alt="user-avatar">
+                        <img src="<%=`${process.env.SERVER_URL}/${authUser.avatarLocation}`%>" alt="user-avatar">
                     <% } else { %>
                         <img src="/assets/img/userAvatarDefault.png" alt="user-avatar" style="border: 4px solid var(--c_bg)">
                     <% } %>
