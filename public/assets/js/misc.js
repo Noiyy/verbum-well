@@ -3,21 +3,31 @@
 // const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
 
 // Page load animation handler
+const hideOverlay = () => {
+    const pageLoadAnimation = document.querySelector('.page-load-animation');
+
+    const overlayEl = document.querySelector('.page-load-overlay');
+    if (overlayEl) {
+        document.body.style.overflow = "initial";
+        overlayEl.style.opacity = 0;
+        overlayEl.addEventListener("transitionend", () => {
+            overlayEl.remove();
+        });
+    }
+
+    pageLoadAnimation.style.display = 'none';
+};
+
 window.addEventListener('load', function() {
     const pageLoadAnimation = document.querySelector('.page-load-animation');
+    console.log("starting page load", pageLoadAnimation);
     if (!pageLoadAnimation) return;
-    pageLoadAnimation.addEventListener('animationend', () => {
-        const overlayEl = document.querySelector('.page-load-overlay');
-        if (overlayEl) {
-            document.body.style.overflow = "initial";
-            overlayEl.style.opacity = 0;
-            overlayEl.addEventListener("transitionend", () => {
-                overlayEl.remove();
-            });
-        }
+    pageLoadAnimation.addEventListener('animationend', () => hideOverlay());
 
-        pageLoadAnimation.style.display = 'none'
-    });
+    // In case it somehow doesnt react to animationend
+    this.setTimeout(() => {
+        hideOverlay();
+    }, 500);
   });
 
 // Scroll to top btn view handler
