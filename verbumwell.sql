@@ -1,7 +1,8 @@
+CREATE DATABASE IF NOT EXISTS verbumwell;
 USE verbumwell;
 
 -- DROP TABLE IF EXISTS headings, subHeadings, paragraphs, images, linebreaks, users, comments, posts;
- DROP TABLE IF EXISTS headings, subHeadings, paragraphs, images, linebreaks, comments, posts;
+-- DROP TABLE IF EXISTS headings, subHeadings, paragraphs, images, linebreaks, comments, posts;
 
 -- CREATE TABLE IF NOT EXISTS users (
 -- 	id INT NOT NULL AUTO_INCREMENT,

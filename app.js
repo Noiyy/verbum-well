@@ -21,9 +21,16 @@ const sessionOptions = {
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.SESSION_DB,
+    createDatabaseTable: true,
 };
   
 const sessionStore = new MySQLStore(sessionOptions);
+sessionStore.onReady().then(() => {
+    console.log('Session store ready');
+}).catch((err) => {
+    console.error('Error creating session store:', err);
+});
+
 app.use(
     session({
         secret: process.env.SESSION_SECRET,
@@ -61,4 +68,6 @@ app.use((error, req, res, next) => {
     res.status(500).render("statuses/500");
 });
 
-app.listen(3000);
+app.listen(3000, () => {
+  console.log('Server listening on port 3000');
+});

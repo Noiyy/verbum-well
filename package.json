@@ -4,10 +4,14 @@
   "description": "semestralka",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js"
+    "dev": "set NODE_ENV=development && nodemon app.js",
+    "start": "set NODE_ENV=production && pm2 start app.js --name verbumWell --env production",
+    "stop": "pm2 stop verbumWell",
+    "monit": "pm2 monit",
+    "get-logs": "pm2 logs verbumWell"
   },
   "author": "Benjamín Muľár",
-  "license": "UNLICENSED",
+  "license": "",
   "dependencies": {
     "bootstrap": "^5.3.3",
     "dotenv": "^16.4.5",
